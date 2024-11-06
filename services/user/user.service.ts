@@ -14,4 +14,8 @@ export class UserService {
     async createUser(user: User) {
         return await this.database.post(PATH_USERS, user, {});
     }
+
+    async fetchUsers(): Promise<User[] | null>  {
+        return await this.database.get(PATH_USERS, {});
+    }
 }

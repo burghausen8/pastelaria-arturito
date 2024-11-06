@@ -8,8 +8,13 @@ import appColors from "@/constants/Colors";
 import strings from "@/constants/Strings";
 import fonts from "@/constants/Fonts";
 import colors from "@/constants/Colors";
-import { UserService } from "@/services/user/user.service";
+import AppStatus from "@/components/AppStatus";
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { User } from "@/core/types/user";
+import { useUser } from "@/state/hooks/user.hook";
+import AppStateEnum from "@/constants/AppState";
+import { AppLoader } from "@/components/Loader";
+import { showAlert } from "@/components/Alert/Alert";
 
 const FormSchema = z.object({
     name: z.string().min(3, strings.registerErrorName).max(50),
@@ -22,7 +27,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 export default function RegisterFormScreen() {
 
-    const userService = new UserService();
+    const { loading, registerUser } = useUser();
 
     const formik = useFormik({
         initialValues: {
@@ -39,17 +44,22 @@ export default function RegisterFormScreen() {
             };
 
             try {
-                await userService.createUser(user);
-                router.back();
+                await registerUser(user);
+                showAlert("Sucesso!", "Usuario cadastrado com sucesso", "OK", () => {
+                    router.back();
+                })
             } catch (error) {
-                console.log(error);
+                showAlert("Ocorreu um erro", (error as Error).message, "OK", () => {})
             }
         },
         validate: toFormikValidate(FormSchema),
     });
 
     return (
-        <View style={styles.container}>
+<SafeAreaView style={styles.container}>
+{loading && <AppLoader />}
+{!loading && <>
+    <View style={styles.container}>
             <Image style={styles.logo} source={require("../assets/images/logo.png")} />
             <Text style={styles.title}>{strings.loginTitle}</Text>
 
@@ -108,6 +118,8 @@ export default function RegisterFormScreen() {
                 <Link href="/" style={styles.signIn}> Faça o login</Link>
             </Text>
         </View>
+</>}
+</SafeAreaView >
     );
 }
 
