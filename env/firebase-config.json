@@ -1,0 +1,10 @@
+ {
+    "apiKey": "AIzaSyAUoUPOR1f5qqciTh4AANNfq4vJpEN33MM",
+    "authDomain": "pastelaria-arturito.firebaseapp.com",
+    "databaseURL": "https://pastelaria-arturito-default-rtdb.firebaseio.com",
+    "projectId": "pastelaria-arturito",
+    "storageBucket": "pastelaria-arturito.firebasestorage.app",
+    "messagingSenderId": "143968180316",
+    "appId": "1:143968180316:web:ffd25f35511da2ac3dee99",
+    "measurementId": "G-QHECP8Y41Q"
+ }
